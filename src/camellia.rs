@@ -31,6 +31,7 @@ struct CamelliaSubkeys {
     keys: [[u32; 2]; 30],
 }
 
+/// A structure representing cipher.
 #[derive(Debug, Clone)]
 pub struct CamelliaCipher {
     subkeys: CamelliaSubkeys,
@@ -38,6 +39,19 @@ pub struct CamelliaCipher {
 }
 
 impl CamelliaCipher {
+    /// Creates new CamelliaCipher instance from variable length key.
+    ///
+    /// # Errors
+    ///
+    /// If key.len() is other than 16, 24 and 32, an error will be returned.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// # use camellia_rs::*;
+    /// let key = [0u8; 16];
+    /// let cipher = CamelliaCipher::new(&key).unwrap();
+    /// ```
     pub fn new(key: &[u8]) -> CamelliaResult<Self> {
         let (subkeys, key_len) = Self::key_schedule(key)?;
         Ok(CamelliaCipher { subkeys, key_len })
@@ -229,6 +243,19 @@ impl CamelliaCipher {
         block[Fourth] ^= flr;
     }
 
+    /// Encrypts given block in-place.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// # use camellia_rs::*;
+    /// let key = [0u8; 16];
+    /// let cipher = CamelliaCipher::new(&key).unwrap();
+    /// let data = [0u8; 16];
+    /// let mut block = Block::from(data);
+    /// cipher.encrypt(&mut block);
+    /// let encrypted: [u8; 16] = block.into();
+    /// ```
     pub fn encrypt(&self, block: &mut Block) {
         *block ^= self.subkeys.whitening[0];
 
@@ -260,6 +287,19 @@ impl CamelliaCipher {
         *block ^= self.subkeys.whitening[1];
     }
 
+    /// Decrypts given block in-place.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// # use camellia_rs::*;
+    /// let key = [0u8; 16];
+    /// let cipher = CamelliaCipher::new(&key).unwrap();
+    /// let data = [0u8; 16];
+    /// let mut block = Block::from(data);
+    /// cipher.decrypt(&mut block);
+    /// let decrypted: [u8; 16] = block.into();
+    /// ```
     pub fn decrypt(&self, block: &mut Block) {
         *block ^= self.subkeys.whitening[1];
 

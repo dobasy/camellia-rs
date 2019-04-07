@@ -1,3 +1,9 @@
+//! Rust implementation of Camellia cipher.
+//!
+//! # Safety
+//!
+//! Unsafe codes are only used in Block.index() and index_mut().
+
 mod block;
 mod camellia;
 mod consts;
