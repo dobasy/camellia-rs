@@ -5,6 +5,7 @@ authors = ["dobasy <dobasy.n@gmail.com>"]
 edition = "2018"
 repository = "https://github.com/dobasy/camellia-rs"
 readme = "README.md"
+description = "Rust implementation of Camellia cipher."
 keywords = ["cipher", "crypto"]
 categories = ["algorithms", "cryptography"]
 license = "MIT"
