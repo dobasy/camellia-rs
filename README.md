@@ -13,3 +13,6 @@ fn encrypt_block(key: &[u8], data: &mut [u8; 16]) -> Result<(), InvalidKeyLength
     Ok(())
 }
 ```
+
+## License
+This library is licensed under MIT License.
