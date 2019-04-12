@@ -5,12 +5,16 @@ Rust implementation of Camellia cipher.
 ```rust
 use camellia_rs::*;
 
-fn encrypt_block(key: &[u8], data: &mut [u8; 16]) -> Result<(), InvalidKeyLength> {
-    let c = CamelliaCipher::new(key)?;
-    let mut buf = Block::from(*data);
-    c.encrypt(&mut buf);
-    *data = buf.into();
-    Ok(())
+fn encrypt(key: &[u8], data: &mut [u8]) {
+    assert_eq!(data.len() % 16, 0);
+    let cipher = CamelliaCipher::new(key).unwrap();
+    let mut buf = Block::default();
+
+    for i in (0..key.len()).step_by(16) {
+        buf.bytes.copy_from_slice(&data[i..(i + 16)]);
+        cipher.encrypt(&mut buf);
+        data[i..(i + 16)].copy_from_slice(&buf.bytes);
+    }
 }
 ```
 
