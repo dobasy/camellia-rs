@@ -64,13 +64,13 @@ impl BitXorAssign for Block {
 
 impl Block {
     /// Swaps first 8 bytes and last 8 bytes.
-    pub fn swap_halves(&mut self) {
+    pub(crate) fn swap_halves(&mut self) {
         let tmp = u128::from_ne_bytes(self.bytes);
         self.bytes = ((tmp >> 64) | (tmp << 64)).to_ne_bytes();
     }
 
     /// Rotates all bits to left by specified amount.
-    pub fn bit_rotate_left(&mut self, n: u32) {
+    pub(crate) fn bit_rotate_left(&mut self, n: u32) {
         self.bytes = u128::from_be_bytes(self.bytes).rotate_left(n).to_be_bytes();
     }
 }
