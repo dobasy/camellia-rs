@@ -50,7 +50,10 @@ impl CamelliaCipher {
     /// ```
     /// # use camellia_rs::*;
     /// let key = [0u8; 16];
-    /// let cipher = CamelliaCipher::new(&key).unwrap();
+    /// assert!(CamelliaCipher::new(&key).is_ok());
+    ///
+    /// let key = [0u8; 17];
+    /// assert!(CamelliaCipher::new(&key).is_err());
     /// ```
     pub fn new(key: &[u8]) -> CamelliaResult<Self> {
         let (subkeys, key_len) = Self::key_schedule(key)?;
@@ -250,9 +253,11 @@ impl CamelliaCipher {
     /// ```
     /// # use camellia_rs::*;
     /// let key = [0u8; 16];
-    /// let cipher = CamelliaCipher::new(&key).unwrap();
     /// let data = [0u8; 16];
+    ///
+    /// let cipher = CamelliaCipher::new(&key).unwrap();
     /// let mut block = Block::from(data);
+    ///
     /// cipher.encrypt(&mut block);
     /// let encrypted: [u8; 16] = block.into();
     /// ```
@@ -294,9 +299,11 @@ impl CamelliaCipher {
     /// ```
     /// # use camellia_rs::*;
     /// let key = [0u8; 16];
-    /// let cipher = CamelliaCipher::new(&key).unwrap();
     /// let data = [0u8; 16];
+    ///
+    /// let cipher = CamelliaCipher::new(&key).unwrap();
     /// let mut block = Block::from(data);
+    ///
     /// cipher.decrypt(&mut block);
     /// let decrypted: [u8; 16] = block.into();
     /// ```
